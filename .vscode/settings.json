@@ -1,0 +1,9 @@
+{
+    "editor.renderWhitespace": "boundary",
+    "editor.rulers": [80],
+    "javascript.validate.enable": false,
+    "editor.tabSize": 4,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": false
+    }
+}
