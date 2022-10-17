@@ -8,9 +8,10 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // eslint-disable-next-line react/jsx-filename-extension
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+    // Avoid trigger useEffect twice
+    // <React.StrictMode>
+    <App />,
+    // </React.StrictMode>,
 );
 
 // If you want your app to work offline and load faster, you can change
