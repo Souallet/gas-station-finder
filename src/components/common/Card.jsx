@@ -1,9 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Card({ title, description, img, fuels }) {
+import { StarIcon } from '@heroicons/react/24/outline';
+
+function Card({ title, description, img, fuels, isFavorite, toggleFavoriteFunc }) {
     // const imagePath = `/assets/images/${img}`;
     // const image = require(imagePath);
+
+    const favIcon = () =>
+        isFavorite ? (
+            <button
+                type="submit"
+                className="absolute top-0 right-0 mr-2 mt-2"
+                onClick={(e) => toggleFavoriteFunc(e)}
+            >
+                <StarIcon className="h-6 w-6 text-yellow-500 fill-yellow-500" />
+            </button>
+        ) : (
+            <button
+                type="submit"
+                className="absolute top-0 right-0 mr-2 mt-2"
+                onClick={(e) => toggleFavoriteFunc(e)}
+            >
+                <StarIcon className="h-6 w-6 text-yellow-500" />
+            </button>
+        );
+
     const haveImage = () =>
         img === '' ? <> </> : <img className="w-full" src={img} alt={`${title} preview`} />;
 
@@ -25,7 +47,11 @@ function Card({ title, description, img, fuels }) {
     };
 
     return (
-        <div key={Number(Math.random()).toString(16)} className="rounded overflow-hidden shadow-lg">
+        <div
+            key={Number(Math.random()).toString(16)}
+            className="relative rounded overflow-hidden shadow-lg"
+        >
+            {favIcon()}
             {haveImage()}
             <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">{title}</div>
@@ -46,12 +72,16 @@ Card.propTypes = {
             price: PropTypes.number,
         }),
     ),
+    isFavorite: PropTypes.bool,
+    toggleFavoriteFunc: PropTypes.func,
 };
 
 Card.defaultProps = {
     description: 'Aucune description',
     img: 'fuel_station.jpg',
     fuels: [],
+    isFavorite: false,
+    toggleFavoriteFunc: (e) => e.preventDefault(),
 };
 
 export default Card;

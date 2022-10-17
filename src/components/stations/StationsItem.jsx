@@ -2,9 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../common/Card';
+import { useStations } from '../../contexts/StationsContext';
 
 function StationsItem({ station }) {
+    const stations = useStations();
+
     const [stationFuels, setStationFuels] = React.useState([]);
+    const [isFavorite, setIsFavorite] = React.useState(
+        stations.state?.favorites?.filter((s) => s?.fields?.id === station?.fields?.id).length ===
+            1,
+    );
+
+    const toggleFavorite = async (e) => {
+        e.preventDefault();
+        const action = {
+            type: isFavorite ? 'removeFavorite' : 'addFavorite',
+            data: station,
+        };
+        stations.dispatch(action);
+        await setIsFavorite(!isFavorite);
+    };
 
     React.useEffect(() => {
         const getStationFuels = async () => {
@@ -41,6 +58,7 @@ function StationsItem({ station }) {
             const data = await res.json();
             return data?.records ?? [];
         };
+
         const fetchNewStations = async () => {
             let newStationFuels = await getStationFuels();
             newStationFuels = newStationFuels.map((e) => {
@@ -51,6 +69,7 @@ function StationsItem({ station }) {
             });
             await setStationFuels(newStationFuels);
         };
+
         fetchNewStations();
     }, [station?.fields?.id]);
 
@@ -60,6 +79,8 @@ function StationsItem({ station }) {
             description={station?.fields?.dep_name ?? 'Undefined'}
             img=""
             fuels={stationFuels}
+            isFavorite={isFavorite}
+            toggleFavoriteFunc={toggleFavorite}
         />
     );
 }
