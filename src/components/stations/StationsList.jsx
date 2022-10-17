@@ -1,10 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import StationsItem from './StationsItem';
 import GridLayout from '../../layouts/GridLayout';
+import { useStations } from '../../contexts/StationsContext';
 
-function StationsList() {
+function StationsList({ filters }) {
     const [stations, setStations] = React.useState([]);
+    const stationsContext = useStations();
 
     const getStations = async () => {
         const searchParams = new URLSearchParams({
@@ -39,6 +42,11 @@ function StationsList() {
     };
 
     React.useEffect(() => {
+        if (filters?.favorites === true) {
+            setStations(stationsContext.state.favorites);
+            return;
+        }
+
         const fetchNewStations = async () => {
             let newStations = await getStations();
             if (stations.length > 0) {
@@ -57,5 +65,18 @@ function StationsList() {
         </GridLayout>
     );
 }
+
+StationsList.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types, react/require-default-props
+    filters: PropTypes.shape({
+        favorites: PropTypes.bool,
+    }),
+};
+
+StationsList.defaultProps = {
+    filters: {
+        favorites: false,
+    },
+};
 
 export default StationsList;
