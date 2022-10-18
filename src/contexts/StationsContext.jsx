@@ -52,12 +52,12 @@ StationsProvider.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
-function useStations() {
+function useStationsContext() {
     const context = React.useContext(StationsContext);
     if (context === undefined) {
-        throw new Error('useStations must be used within a CountProvider');
+        throw new Error('useStationsContext must be used within a CountProvider');
     }
     return context;
 }
 
-export { StationsProvider, useStations };
+export { StationsProvider, useStationsContext };

@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Card from '../common/Card';
-import { useStations } from '../../contexts/StationsContext';
+import { useStationsContext } from '../../contexts/StationsContext';
 
 function StationsItem({ station }) {
-    const stations = useStations();
+    const stations = useStationsContext();
 
     const [stationFuels, setStationFuels] = React.useState([]);
     const [isFavorite, setIsFavorite] = React.useState(
