@@ -5,6 +5,7 @@ import StationsList from '../components/stations/StationsList';
 import SearchBar from '../components/common/SearchBar';
 import useStationsAPI from '../hooks/useStationsAPI';
 import Spinner from '../components/common/Spinner';
+import Accordion from '../components/common/Accordion';
 
 function HomeScreen() {
     const [filters, setFilters] = React.useState({});
@@ -39,6 +40,9 @@ function HomeScreen() {
         <Container>
             <div className="flex justify-center my-12">
                 <SearchBar onFormSubmit={onSearchBarSubmit} />
+            </div>
+            <div className="flex justify-center my-4">
+                <Accordion title="Plus de critères de recherche">SearchForm</Accordion>
             </div>
             {searched ? (
                 displayStationList()
