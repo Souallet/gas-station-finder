@@ -38,8 +38,14 @@ function useStationsAPI(filters) {
         });
 
         Object.keys(filters).forEach((key) => {
-            if (key !== 'favorites') {
-                searchParams.set(`refine.${key}`, filters[key]);
+            const value = filters[key];
+            if (value !== '') {
+                console.log(key, value);
+                if (!['favorites', 'q'].includes(key)) {
+                    searchParams.set(`refine.${key}`, value);
+                } else {
+                    searchParams.set(key, filters[key]);
+                }
             }
         });
 

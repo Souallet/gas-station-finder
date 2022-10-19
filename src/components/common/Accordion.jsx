@@ -14,7 +14,7 @@ function Accordion({ title, children }) {
         );
 
     return (
-        <div className="flex flex-col justify-center w-4/5">
+        <div className="flex flex-col justify-center w-full">
             <button
                 type="button"
                 className="w-full py-2 px-4 flex items-center justify-between text-white bg-indigo-500 rounded-lg border border-indigo-500 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300"
@@ -25,7 +25,7 @@ function Accordion({ title, children }) {
             </button>
 
             {isOpen && (
-                <div className="shadow-3xl rounded-2xl shadow-indigo-500/50 p-4 mb-4 ">
+                <div className="shadow-3xl rounded-2xl shadow-indigo-500/50 py-6 border-b border-indigo-500">
                     {children}
                 </div>
             )}

@@ -2,10 +2,10 @@ import React from 'react';
 
 import Container from '../components/common/Container';
 import StationsList from '../components/stations/StationsList';
-import SearchBar from '../components/common/SearchBar';
 import useStationsAPI from '../hooks/useStationsAPI';
 import Spinner from '../components/common/Spinner';
-import Accordion from '../components/common/Accordion';
+
+import SearchingForm from '../components/forms/SearchingForm';
 
 function HomeScreen() {
     const [filters, setFilters] = React.useState({});
@@ -14,9 +14,10 @@ function HomeScreen() {
 
     const stationsAPI = useStationsAPI(filters);
 
-    const onSearchBarSubmit = (e) => {
-        const searchedCity = e.target[0].value;
-        setFilters({ ...filters, com_name: searchedCity });
+    const onSearchSubmit = (e) => {
+        const formData = new FormData(e.target);
+        const formProps = Object.fromEntries(formData);
+        setFilters({ ...filters, ...formProps });
         setSearched(true);
     };
 
@@ -31,11 +32,9 @@ function HomeScreen() {
     return (
         <Container>
             <div className="flex justify-center my-12">
-                <SearchBar onFormSubmit={onSearchBarSubmit} />
+                <SearchingForm onFormSubmit={onSearchSubmit} />
             </div>
-            <div className="flex justify-center my-4">
-                <Accordion title="Plus de critères de recherche">SearchForm</Accordion>
-            </div>
+
             {searched ? (
                 displayStationList()
             ) : (
