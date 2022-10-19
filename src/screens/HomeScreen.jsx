@@ -25,16 +25,8 @@ function HomeScreen() {
     };
 
     React.useEffect(() => {
-        // Si aucun filtres
-        if (
-            filters &&
-            Object.keys(filters).length === 0 &&
-            Object.getPrototypeOf(filters) === Object.prototype
-        )
-            return;
-
         setStations(stationsAPI.stations ?? []);
-    }, [filters]);
+    }, [stationsAPI.stations]);
 
     return (
         <Container>

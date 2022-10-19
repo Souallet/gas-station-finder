@@ -6,6 +6,14 @@ function useStationsAPI(filters) {
     const [error, seterror] = React.useState('');
 
     React.useEffect(() => {
+        // Si aucun filtres
+        if (
+            filters &&
+            Object.keys(filters).length === 0 &&
+            Object.getPrototypeOf(filters) === Object.prototype
+        )
+            return;
+
         const searchParams = new URLSearchParams({
             dataset: 'prix-carburants-fichier-instantane-test-ods-copie',
             q: '',
