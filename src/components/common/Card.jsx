@@ -49,13 +49,13 @@ function Card({ title, description, img, fuels, isFavorite, toggleFavoriteFunc }
     return (
         <div
             key={Number(Math.random()).toString(16)}
-            className="relative rounded overflow-hidden shadow-lg"
+            className="relative rounded overflow-hidden shadow-lg dark:bg-slate-800 dark:shadow-md"
         >
             {favIcon()}
             {haveImage()}
             <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{title}</div>
-                <p className="text-gray-700 text-base">{description}</p>
+                <div className="font-bold text-xl mb-2 dark:text-indigo-300 ">{title}</div>
+                <p className="text-gray-700 text-base dark:text-slate-400 ">{description}</p>
             </div>
             {haveFuels()}
         </div>

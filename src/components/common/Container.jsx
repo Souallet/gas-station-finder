@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Container({ children }) {
-    return <div className="container mx-auto px-12">{children}</div>;
+    return <div className="container relative mx-auto px-12">{children}</div>;
 }
 
 Container.propTypes = {
