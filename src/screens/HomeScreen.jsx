@@ -6,11 +6,44 @@ import useStationsAPI from '../hooks/useStationsAPI';
 import Spinner from '../components/common/Spinner';
 
 import SearchingForm from '../components/forms/SearchingForm';
+import Select from '../components/common/Select';
 
 function HomeScreen() {
+    const limitOptionsBase = React.useMemo(
+        () => [
+            {
+                id: 10,
+                value: 10,
+                selected: false,
+            },
+            {
+                id: 20,
+                value: 20,
+                selected: false,
+            },
+            {
+                id: 30,
+                value: 30,
+                selected: false,
+            },
+            {
+                id: 40,
+                value: 40,
+                selected: false,
+            },
+            {
+                id: 50,
+                value: 50,
+                selected: false,
+            },
+        ],
+        [],
+    );
+
     const [filters, setFilters] = React.useState({});
-    const [stations, setStations] = React.useState([]);
     const [searched, setSearched] = React.useState(false);
+    const [limitOptions, setLimitOptions] = React.useState(limitOptionsBase);
+    const [oldLimit, setOldLimit] = React.useState(limitOptionsBase[0].value);
 
     const stationsAPI = useStationsAPI(filters);
 
@@ -21,13 +54,48 @@ function HomeScreen() {
         setSearched(true);
     };
 
+    const onLimitChange = async (event) => {
+        const newLimit = event.target.value;
+        console.log({ start: oldLimit, rows: newLimit - oldLimit });
+        await setFilters({ ...filters, start: oldLimit, rows: newLimit - oldLimit });
+        await setOldLimit(newLimit);
+    };
+
     const displayStationList = () => {
-        return stationsAPI.loading && searched ? <Spinner /> : <StationsList stations={stations} />;
+        return stationsAPI.loading && searched ? (
+            <Spinner />
+        ) : (
+            <>
+                <div className="flex justify-between text-lg text-indigo-500 dark:text-indigo-400">
+                    <span>Nombre de résultat(s) : {stationsAPI?.total}</span>
+                    <Select
+                        id="limit"
+                        name="limit"
+                        options={limitOptions}
+                        onChange={onLimitChange}
+                    />
+                </div>
+                <StationsList stations={stationsAPI?.stations ?? []} />
+            </>
+        );
     };
 
     React.useEffect(() => {
-        setStations(stationsAPI.stations ?? []);
-    }, [stationsAPI.stations]);
+        let options = limitOptionsBase.filter((l) => l.id <= stationsAPI?.total);
+
+        if (options.length > 0)
+            options = options.map((o) =>
+                o.id === stationsAPI?.total ? { ...o, selected: true } : o,
+            );
+
+        options.push({
+            value: stationsAPI?.total,
+            id: 'Tous',
+            selected: options.length === 0,
+        });
+
+        setLimitOptions(options);
+    }, [limitOptionsBase, stationsAPI?.total]);
 
     return (
         <Container>

@@ -1,9 +1,11 @@
 import React from 'react';
 
 function useStationsAPI(filters) {
+    const [total, setTotal] = React.useState(null);
     const [stations, setStations] = React.useState(null);
     const [loading, setloading] = React.useState(true);
     const [error, seterror] = React.useState('');
+    const [filtersUsed, setFiltersUsed] = React.useState({});
 
     React.useEffect(() => {
         // Si aucun filtres
@@ -18,7 +20,7 @@ function useStationsAPI(filters) {
             dataset: 'prix-carburants-fichier-instantane-test-ods-copie',
             q: '',
             start: 0,
-            rows: 5,
+            rows: 10,
             lang: 'fr',
             facet: [
                 'id',
@@ -40,8 +42,7 @@ function useStationsAPI(filters) {
         Object.keys(filters).forEach((key) => {
             const value = filters[key];
             if (value !== '') {
-                console.log(key, value);
-                if (!['favorites', 'q'].includes(key)) {
+                if (!['favorites', 'q', 'rows', 'start'].includes(key)) {
                     searchParams.set(`refine.${key}`, value);
                 } else {
                     searchParams.set(key, filters[key]);
@@ -49,18 +50,40 @@ function useStationsAPI(filters) {
             }
         });
 
+        const searchParamsObject = Object.fromEntries(searchParams);
         const url = `https://data.economie.gouv.fr/api/records/1.0/search/?${searchParams}`;
 
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => {
-                seterror(data.error);
-                setStations(data?.records ?? []);
-                setloading(false);
-            });
+        const nbDisplayed = stations?.length ?? 0;
+        const nbToDisplay =
+            parseInt(searchParamsObject.rows, 10) + parseInt(searchParamsObject.start, 10);
+
+        console.log('Nombre de stations affichées : ', nbDisplayed);
+        console.log('Nombre de stations affichées souhaitées : ', nbToDisplay);
+
+        if (nbDisplayed > nbToDisplay) {
+            setStations(stations.slice(0, 0 - (stations.length - nbToDisplay)));
+            setloading(false);
+            setFiltersUsed(searchParamsObject);
+        } else {
+            fetch(url)
+                .then((res) => res.json())
+                .then((data) => {
+                    let newStationsList = data?.records ?? [];
+
+                    if (searchParamsObject.start > 0) {
+                        newStationsList = newStationsList.concat(stations);
+                    }
+
+                    setFiltersUsed(searchParamsObject);
+                    seterror(data.error);
+                    setStations(newStationsList);
+                    setTotal(data?.nhits ?? 0);
+                    setloading(false);
+                });
+        }
     }, [filters]);
 
-    return { stations, loading, error };
+    return { stations, total, loading, error, filtersUsed };
 }
 
 export default useStationsAPI;
