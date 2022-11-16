@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MapPinIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Input from '../../common/Input';
 
 function SearchBar() {
@@ -12,12 +12,12 @@ function SearchBar() {
                 </div>
                 <Input type="text" id="q" name="q" placeholder="Rechercher" />
             </div>
-            <button
+            {/* <button
                 type="button"
                 className="p-2.5 text-sm font-medium text-white bg-indigo-500 rounded-lg border border-indigo-500 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 "
             >
                 <MapPinIcon className="h- w-5 text-white" />
-            </button>
+            </button> */}
             <button
                 type="submit"
                 className="p-2.5 text-sm font-medium text-white bg-indigo-500 rounded-lg border border-indigo-500 hover:bg-indigo-500 focus:ring-4 focus:outline-none focus:ring-indigo-300 "

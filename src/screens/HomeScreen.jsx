@@ -50,13 +50,15 @@ function HomeScreen() {
     const onSearchSubmit = (e) => {
         const formData = new FormData(e.target);
         const formProps = Object.fromEntries(formData);
-        setFilters({ ...filters, ...formProps });
+        const moduloLimit = oldLimit % 10;
+        const newRows = moduloLimit === 0 ? oldLimit : oldLimit - moduloLimit;
+
+        setFilters({ ...filters, ...formProps, start: 0, rows: newRows });
         setSearched(true);
     };
 
     const onLimitChange = async (event) => {
         const newLimit = event.target.value;
-        console.log({ start: oldLimit, rows: newLimit - oldLimit });
         await setFilters({ ...filters, start: oldLimit, rows: newLimit - oldLimit });
         await setOldLimit(newLimit);
     };

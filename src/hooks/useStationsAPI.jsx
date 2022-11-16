@@ -1,4 +1,17 @@
 import React from 'react';
+import { isEqual } from 'lodash';
+
+const isNewSearch = (newSearchParams, oldSearchParams, paramsToExclude = ['start', 'rows']) => {
+    const tmpOldSearchParams = structuredClone(oldSearchParams);
+    const tmpNewSearchParams = structuredClone(newSearchParams);
+
+    paramsToExclude.forEach((p) => {
+        tmpOldSearchParams[p] = 0;
+        tmpNewSearchParams[p] = 0;
+    });
+
+    return !isEqual(tmpOldSearchParams, tmpNewSearchParams);
+};
 
 function useStationsAPI(filters) {
     const [total, setTotal] = React.useState(null);
@@ -51,16 +64,15 @@ function useStationsAPI(filters) {
         });
 
         const searchParamsObject = Object.fromEntries(searchParams);
+        const newSearch = isNewSearch(searchParamsObject, filtersUsed);
+
         const url = `https://data.economie.gouv.fr/api/records/1.0/search/?${searchParams}`;
 
-        const nbDisplayed = stations?.length ?? 0;
+        const nbDisplayed = !newSearch && stations?.length > 0 ? stations?.length : 0;
         const nbToDisplay =
             parseInt(searchParamsObject.rows, 10) + parseInt(searchParamsObject.start, 10);
 
-        console.log('Nombre de stations affichées : ', nbDisplayed);
-        console.log('Nombre de stations affichées souhaitées : ', nbToDisplay);
-
-        if (nbDisplayed > nbToDisplay) {
+        if (nbToDisplay && nbDisplayed > nbToDisplay) {
             setStations(stations.slice(0, 0 - (stations.length - nbToDisplay)));
             setloading(false);
             setFiltersUsed(searchParamsObject);
@@ -70,7 +82,7 @@ function useStationsAPI(filters) {
                 .then((data) => {
                     let newStationsList = data?.records ?? [];
 
-                    if (searchParamsObject.start > 0) {
+                    if (searchParamsObject.start > 0 && !newSearch) {
                         newStationsList = newStationsList.concat(stations);
                     }
 
