@@ -96,6 +96,7 @@ function StationsItem({ station }) {
                 <Flex alignItems="start" justifyContent="space-between" gap={10}>
                     <Heading size="md">{station?.fields?.epci_name ?? 'Inconnue'}</Heading>
                     <IconButton
+                        p={1}
                         variant="ghost"
                         aria-label="Ajouter aux favoris"
                         onClick={toggleFavorite}

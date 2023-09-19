@@ -1,11 +1,20 @@
 import React from 'react';
 
-import { Container, Spinner } from '@chakra-ui/react';
+import {
+    Flex,
+    Container,
+    Spinner,
+    Select,
+    Card,
+    SimpleGrid,
+    Heading,
+    Text,
+    Box,
+    Stack,
+} from '@chakra-ui/react';
 import StationsList from '../components/stations/StationsList';
 import useStationsAPI from '../hooks/useStationsAPI';
-
 import SearchingForm from '../components/forms/SearchingForm';
-import Select from '../components/common/Select';
 
 function HomeScreen() {
     const limitOptionsBase = React.useMemo(
@@ -46,8 +55,12 @@ function HomeScreen() {
 
     const stationsAPI = useStationsAPI(filters);
 
-    const onSearchSubmit = (e) => {
-        const formData = new FormData(e.target);
+    const onSearchSubmit = async (values) => {
+        const formData = Object.keys(values).reduce((fd, key) => {
+            fd.append(key, values[key]);
+            return fd;
+        }, new FormData());
+
         const formProps = Object.fromEntries(formData);
         const moduloLimit = oldLimit % 10;
         const newRows = moduloLimit === 0 ? oldLimit : oldLimit - moduloLimit;
@@ -64,18 +77,29 @@ function HomeScreen() {
 
     const displayStationList = () => {
         return stationsAPI.loading && searched ? (
-            <Spinner size="xl" />
+            <Flex justifyContent="center" alignItems="center" mt={20}>
+                <Spinner size="xl" />
+            </Flex>
         ) : (
             <>
-                <div>
-                    <span>Nombre de résultat(s) : {stationsAPI?.total}</span>
+                <Flex my={10} justify="space-between">
+                    <Box>
+                        Total : {stationsAPI?.total} résultat{stationsAPI?.total > 1 ? 's' : ''}
+                    </Box>
                     <Select
+                        w="fit"
                         id="limit"
                         name="limit"
-                        options={limitOptions}
+                        value={oldLimit}
                         onChange={onLimitChange}
-                    />
-                </div>
+                    >
+                        {limitOptions.map((e) => (
+                            <option key={e.id} value={e.value}>
+                                {e.value}
+                            </option>
+                        ))}
+                    </Select>
+                </Flex>
                 <StationsList stations={stationsAPI?.stations ?? []} />
             </>
         );
@@ -99,16 +123,36 @@ function HomeScreen() {
     }, [limitOptionsBase, stationsAPI?.total]);
 
     return (
-        <Container maxW="container.xl">
-            <div>
-                <SearchingForm onFormSubmit={onSearchSubmit} />
-            </div>
+        <Container maxW="container.xl" mt={10}>
+            <SimpleGrid columns={{ sm: 1, md: 2 }} gap={10}>
+                <Stack as={Box} spacing={{ base: 8, md: 14 }} py={{ base: 10, md: 20 }}>
+                    <Heading
+                        fontWeight={600}
+                        fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
+                        lineHeight="110%"
+                    >
+                        Recherchez votre station{' '}
+                        <Text as="span" color="cyan.300" fontWeight={700}>
+                            service
+                        </Text>
+                        .
+                    </Heading>
+                    <Text color="gray.500">
+                        Découvrez les stations service autour de chez vous, les carburants
+                        disponible ainsi que leur prix.
+                    </Text>
+                </Stack>
+                <Flex
+                    justifyContent={{ sm: 'center', md: 'end' }}
+                    direction={{ md: 'row-reverse' }}
+                >
+                    <Card p={10} maxW="lg">
+                        <SearchingForm onSubmit={onSearchSubmit} />
+                    </Card>
+                </Flex>
+            </SimpleGrid>
 
-            {searched ? (
-                displayStationList()
-            ) : (
-                <p>Lancer une recherche pour trouver une station à proximité</p>
-            )}
+            {searched ? displayStationList() : null}
         </Container>
     );
 }

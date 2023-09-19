@@ -13,7 +13,7 @@ root.render(
     // <React.StrictMode>
     <>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />,
+        <App />
     </>,
     // </React.StrictMode>,
 );
