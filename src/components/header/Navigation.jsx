@@ -1,37 +1,68 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-
+import PropTypes from 'prop-types';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import {
+    Box,
+    Flex,
+    Button,
+    useColorModeValue,
+    Stack,
+    useColorMode,
+    Link as ChakraLink,
+    Container,
+} from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import AppRoutes from '../../config/routes';
 
-function Navigation() {
-    const { pathname } = useLocation();
+function NavLink({ children }) {
+    return (
+        <Box
+            as="a"
+            px={2}
+            py={2}
+            rounded="md"
+            _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('gray.200', 'gray.700'),
+            }}
+            href="#"
+        >
+            {children}
+        </Box>
+    );
+}
+
+NavLink.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+};
+
+export default function Navigation() {
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const displayLinks = (route) => {
-        const linkClass =
-            route.path === pathname
-                ? 'bg-white dark:bg-slate-900 shadow text-sm flex items-center justify-center w-full rounded py-2 px-4 left-1 text-indigo-500 dark:text-indigo-300 font-semibold'
-                : null;
         return (
-            <div
-                key={route.label}
-                className="w-full flex justify-center text-slate-500 dark:text-slate-400"
-            >
-                <Link to={route.path} className={linkClass}>
-                    {route.label}
-                </Link>
-            </div>
+            <ChakraLink as={ReactRouterLink} to={route.path}>
+                <NavLink>{route.label}</NavLink>
+            </ChakraLink>
         );
     };
 
     return (
-        <div className="w-full max-w-sm flex flex-col mx-auto text-center">
-            <div className="relative w-full mt-4 rounded-md border h-14 p-2 bg-gray-200 dark:bg-slate-800 dark:border-indigo-300">
-                <div className="relative w-full h-full flex items-center">
-                    {AppRoutes.map((ar) => displayLinks(ar))}
-                </div>
-            </div>
-        </div>
+        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+            <Container maxW="container.xl">
+                <Flex h={16} alignItems="center" justifyContent="space-between">
+                    <Box>GSF</Box>
+
+                    <Flex alignItems="center" gap={4}>
+                        {AppRoutes.map((ar) => displayLinks(ar))}
+                        <Stack direction="row" spacing={7}>
+                            <Button onClick={toggleColorMode}>
+                                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                            </Button>
+                        </Stack>
+                    </Flex>
+                </Flex>
+            </Container>
+        </Box>
     );
 }
-
-export default Navigation;
