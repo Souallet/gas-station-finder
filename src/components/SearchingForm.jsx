@@ -96,7 +96,13 @@ function SearchingForm({ onSubmit }) {
                     </FormErrorMessage>
                 </FormControl>
 
-                <Button mt={4} colorScheme="cyan" isLoading={isSubmitting} type="submit">
+                <Button
+                    mt={4}
+                    bgColor="green.400"
+                    colorScheme="whatsapp"
+                    isLoading={isSubmitting}
+                    type="submit"
+                >
                     Rechercher
                 </Button>
             </Flex>

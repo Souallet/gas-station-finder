@@ -132,7 +132,7 @@ function HomeScreen() {
                         lineHeight="110%"
                     >
                         Recherchez votre station{' '}
-                        <Text as="span" color="cyan.300" fontWeight={700}>
+                        <Text as="span" color="green.300" fontWeight={700}>
                             service
                         </Text>
                         .

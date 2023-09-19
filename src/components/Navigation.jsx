@@ -62,10 +62,10 @@ export default function Navigation() {
                     <Flex alignItems="center" gap={4}>
                         <Image src="/logo192.png" alt="Logo GSF" h={10} w={10} />
                         <Heading
-                            fontWeight={600}
+                            fontWeight={700}
                             fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
                             letterSpacing="widest"
-                            color="cyan.300"
+                            color="green.300"
                         >
                             GSF
                         </Heading>
