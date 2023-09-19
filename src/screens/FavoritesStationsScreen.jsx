@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { Container } from '@chakra-ui/react';
 import { useStationsContext } from '../contexts/StationsContext';
 
-import Container from '../components/common/Container';
-import StationsList from '../components/stations/StationsList';
+import StationsList from '../components/StationsList';
 
 function FavoritesStationsScreen() {
     const stationsContext = useStationsContext();
@@ -14,7 +14,7 @@ function FavoritesStationsScreen() {
     }, [stationsContext.state.favorites]);
 
     return (
-        <Container>
+        <Container maxW="container.xl" marginTop="10">
             <StationsList stations={stations} />
         </Container>
     );

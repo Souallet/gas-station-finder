@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Navigation from '../components/header/Navigation';
+import Navigation from '../components/Navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import FavoritesStationsScreen from '../screens/FavoritesStationsScreen';
