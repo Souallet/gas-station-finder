@@ -14,7 +14,7 @@ function FavoritesStationsScreen() {
     }, [stationsContext.state.favorites]);
 
     return (
-        <Container maxW="container.xl">
+        <Container maxW="container.xl" marginTop="10">
             <StationsList stations={stations} />
         </Container>
     );

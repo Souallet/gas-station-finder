@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
+import { SimpleGrid } from '@chakra-ui/react';
 import StationsItem from './StationsItem';
-import GridLayout from '../../layouts/GridLayout';
 
 function StationsList({ stations }) {
     const renderStations = () => stations.map((e) => <StationsItem key={uuidv4()} station={e} />);
@@ -11,7 +11,9 @@ function StationsList({ stations }) {
     return stations.length === 0 ? (
         <p> Aucun résultat</p>
     ) : (
-        <GridLayout>{renderStations()}</GridLayout>
+        <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} gap={10}>
+            {renderStations()}
+        </SimpleGrid>
     );
 }
 

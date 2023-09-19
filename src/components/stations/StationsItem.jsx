@@ -1,7 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Card from '../common/Card';
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    Heading,
+    StackDivider,
+    Stack,
+    Box,
+    IconButton,
+    Flex,
+    Table,
+    TableContainer,
+    Th,
+    Tr,
+    Td,
+    Tbody,
+    Thead,
+} from '@chakra-ui/react';
+import { StarIcon } from '@heroicons/react/24/outline';
 import { useStationsContext } from '../../contexts/StationsContext';
 
 function StationsItem({ station }) {
@@ -74,14 +91,58 @@ function StationsItem({ station }) {
     }, [station?.fields?.id]);
 
     return (
-        <Card
-            title={station?.fields?.epci_name ?? 'Undefined'}
-            description={station?.fields?.dep_name ?? 'Undefined'}
-            img=""
-            fuels={stationFuels}
-            isFavorite={isFavorite}
-            toggleFavoriteFunc={toggleFavorite}
-        />
+        <Card>
+            <CardHeader>
+                <Flex alignItems="start" justifyContent="space-between" gap={10}>
+                    <Heading size="md">{station?.fields?.epci_name ?? 'Inconnue'}</Heading>
+                    <IconButton
+                        variant="ghost"
+                        aria-label="Ajouter aux favoris"
+                        onClick={toggleFavorite}
+                        icon={<StarIcon fill={isFavorite ? 'currentColor' : 'none'} />}
+                    />
+                </Flex>
+            </CardHeader>
+
+            <CardBody>
+                <Stack divider={<StackDivider />} spacing="4">
+                    <Heading size="xs" textTransform="uppercase">
+                        {station?.fields?.dep_name ?? 'Inconnue'}
+                    </Heading>
+
+                    <Box>
+                        {stationFuels.length === 0 ? (
+                            'Aucun carburant'
+                        ) : (
+                            <TableContainer>
+                                <Table variant="simple">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>Carburant</Th>
+                                            <Th>Prix</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {stationFuels?.map((e) =>
+                                            e?.name === undefined ? null : (
+                                                <Tr
+                                                    key={`${e?.name}${e?.price}${Number(
+                                                        Math.random(),
+                                                    ).toString(16)}`}
+                                                >
+                                                    <Td>{e?.name}</Td>
+                                                    <Td>{e?.price} €</Td>
+                                                </Tr>
+                                            ),
+                                        )}
+                                    </Tbody>
+                                </Table>
+                            </TableContainer>
+                        )}
+                    </Box>
+                </Stack>
+            </CardBody>
+        </Card>
     );
 }
 
