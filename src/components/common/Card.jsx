@@ -9,35 +9,23 @@ function Card({ title, description, img, fuels, isFavorite, toggleFavoriteFunc }
 
     const favIcon = () =>
         isFavorite ? (
-            <button
-                type="submit"
-                className="absolute top-0 right-0 mr-2 mt-2"
-                onClick={(e) => toggleFavoriteFunc(e)}
-            >
-                <StarIcon className="h-6 w-6 text-yellow-500 fill-yellow-500" />
+            <button type="submit" onClick={(e) => toggleFavoriteFunc(e)}>
+                <StarIcon />
             </button>
         ) : (
-            <button
-                type="submit"
-                className="absolute top-0 right-0 mr-2 mt-2"
-                onClick={(e) => toggleFavoriteFunc(e)}
-            >
-                <StarIcon className="h-6 w-6 text-yellow-500" />
+            <button type="submit" onClick={(e) => toggleFavoriteFunc(e)}>
+                <StarIcon />
             </button>
         );
 
-    const haveImage = () =>
-        img === '' ? <> </> : <img className="w-full" src={img} alt={`${title} preview`} />;
+    const haveImage = () => (img === '' ? <> </> : <img src={img} alt={`${title} preview`} />);
 
     const haveFuels = () => {
         return fuels.length === 0 ? null : (
-            <div className="px-6 pt-4 pb-2">
+            <div>
                 {fuels?.map((e) =>
                     e?.name === undefined ? null : (
-                        <span
-                            key={`${e?.name}${e?.price}${Number(Math.random()).toString(16)}`}
-                            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                        >
+                        <span key={`${e?.name}${e?.price}${Number(Math.random()).toString(16)}`}>
                             {e?.name} - {e?.price} €
                         </span>
                     ),
@@ -47,15 +35,12 @@ function Card({ title, description, img, fuels, isFavorite, toggleFavoriteFunc }
     };
 
     return (
-        <div
-            key={Number(Math.random()).toString(16)}
-            className="relative rounded overflow-hidden shadow-lg dark:bg-slate-800 dark:shadow-md"
-        >
+        <div key={Number(Math.random()).toString(16)}>
             {favIcon()}
             {haveImage()}
-            <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2 dark:text-indigo-300 ">{title}</div>
-                <p className="text-gray-700 text-base dark:text-slate-400 ">{description}</p>
+            <div>
+                <div>{title}</div>
+                <p>{description}</p>
             </div>
             {haveFuels()}
         </div>

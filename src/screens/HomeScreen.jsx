@@ -1,9 +1,8 @@
 import React from 'react';
 
-import Container from '../components/common/Container';
+import { Container, Spinner } from '@chakra-ui/react';
 import StationsList from '../components/stations/StationsList';
 import useStationsAPI from '../hooks/useStationsAPI';
-import Spinner from '../components/common/Spinner';
 
 import SearchingForm from '../components/forms/SearchingForm';
 import Select from '../components/common/Select';
@@ -65,10 +64,10 @@ function HomeScreen() {
 
     const displayStationList = () => {
         return stationsAPI.loading && searched ? (
-            <Spinner />
+            <Spinner size="xl" />
         ) : (
             <>
-                <div className="flex justify-between text-lg text-indigo-500 dark:text-indigo-400">
+                <div>
                     <span>Nombre de résultat(s) : {stationsAPI?.total}</span>
                     <Select
                         id="limit"
@@ -100,17 +99,15 @@ function HomeScreen() {
     }, [limitOptionsBase, stationsAPI?.total]);
 
     return (
-        <Container>
-            <div className="flex justify-center my-12">
+        <Container maxW="container.xl">
+            <div>
                 <SearchingForm onFormSubmit={onSearchSubmit} />
             </div>
 
             {searched ? (
                 displayStationList()
             ) : (
-                <p className="text-indigo-500 font-semibold text-3xl tracking-wide text-center w-full mt-24">
-                    Lancer une recherche pour trouver une station à proximité
-                </p>
+                <p>Lancer une recherche pour trouver une station à proximité</p>
             )}
         </Container>
     );

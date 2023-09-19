@@ -12,12 +12,7 @@ function Select(props) {
         ));
 
     return (
-        <select
-            id={id}
-            name={name}
-            onChange={onChange}
-            className="border gray-indigo-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:outline-none focus:border-indigo-500 p-2"
-        >
+        <select id={id} name={name} onChange={onChange}>
             {displayOptions()}
         </select>
     );

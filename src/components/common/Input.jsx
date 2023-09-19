@@ -6,14 +6,7 @@ function Input(props) {
     return (
         <>
             {label !== null && { label }}
-            <input
-                id={id}
-                type={type}
-                name={name}
-                onChange={onChange}
-                placeholder={placeholder}
-                className="border gray-indigo-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:outline-none focus:border-indigo-500 block w-full pl-10 p-2.5 "
-            />
+            <input id={id} type={type} name={name} onChange={onChange} placeholder={placeholder} />
         </>
     );
 }

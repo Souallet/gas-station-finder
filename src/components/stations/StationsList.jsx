@@ -9,9 +9,7 @@ function StationsList({ stations }) {
     const renderStations = () => stations.map((e) => <StationsItem key={uuidv4()} station={e} />);
 
     return stations.length === 0 ? (
-        <p className="text-indigo-500 font-semibold text-3xl tracking-wide text-center w-full mt-24">
-            Aucun résultat
-        </p>
+        <p> Aucun résultat</p>
     ) : (
         <GridLayout>{renderStations()}</GridLayout>
     );

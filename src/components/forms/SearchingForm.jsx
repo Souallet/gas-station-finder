@@ -12,9 +12,9 @@ function SearchingForm({ onFormSubmit }) {
     };
 
     return (
-        <form className="flex flex-col w-full items-center gap-8" onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={(e) => onSubmit(e)}>
             <SearchBar />
-            <div className="w-3/4">
+            <div>
                 <Accordion title="Plus de critères de recherche">
                     <FiltersForm />
                 </Accordion>
