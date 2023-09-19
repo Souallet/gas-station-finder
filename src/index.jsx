@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { ColorModeScript } from '@chakra-ui/react';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // eslint-disable-next-line react/jsx-filename-extension
     // Avoid trigger useEffect twice
     // <React.StrictMode>
-    <App />,
+    <>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />,
+    </>,
     // </React.StrictMode>,
 );
 
