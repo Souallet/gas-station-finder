@@ -3,7 +3,7 @@ import React from 'react';
 import { Container } from '@chakra-ui/react';
 import { useStationsContext } from '../contexts/StationsContext';
 
-import StationsList from '../components/stations/StationsList';
+import StationsList from '../components/StationsList';
 
 function FavoritesStationsScreen() {
     const stationsContext = useStationsContext();

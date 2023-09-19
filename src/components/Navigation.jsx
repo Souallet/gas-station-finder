@@ -10,9 +10,11 @@ import {
     useColorMode,
     Link as ChakraLink,
     Container,
+    Heading,
+    Image,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import AppRoutes from '../../config/routes';
+import AppRoutes from '../config/routes';
 
 function NavLink({ children }) {
     return (
@@ -41,22 +43,38 @@ export default function Navigation() {
 
     const displayLinks = (route) => {
         return (
-            <ChakraLink as={ReactRouterLink} to={route.path}>
+            <ChakraLink
+                as={ReactRouterLink}
+                to={route.path}
+                _hover={{
+                    textDecoration: 'none',
+                }}
+            >
                 <NavLink>{route.label}</NavLink>
             </ChakraLink>
         );
     };
 
     return (
-        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Box px={4}>
             <Container maxW="container.xl">
-                <Flex h={16} alignItems="center" justifyContent="space-between">
-                    <Box>GSF</Box>
+                <Flex h={20} alignItems="center" justifyContent="space-between">
+                    <Flex alignItems="center" gap={4}>
+                        <Image src="/logo192.png" alt="Logo GSF" h={10} w={10} />
+                        <Heading
+                            fontWeight={600}
+                            fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
+                            letterSpacing="widest"
+                            color="cyan.300"
+                        >
+                            GSF
+                        </Heading>
+                    </Flex>
 
                     <Flex alignItems="center" gap={4}>
                         {AppRoutes.map((ar) => displayLinks(ar))}
                         <Stack direction="row" spacing={7}>
-                            <Button onClick={toggleColorMode}>
+                            <Button variant="ghost" onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button>
                         </Stack>

@@ -19,7 +19,7 @@ import {
     Thead,
 } from '@chakra-ui/react';
 import { StarIcon } from '@heroicons/react/24/outline';
-import { useStationsContext } from '../../contexts/StationsContext';
+import { useStationsContext } from '../contexts/StationsContext';
 
 function StationsItem({ station }) {
     const stations = useStationsContext();

@@ -12,9 +12,9 @@ import {
     Box,
     Stack,
 } from '@chakra-ui/react';
-import StationsList from '../components/stations/StationsList';
+import StationsList from '../components/StationsList';
 import useStationsAPI from '../hooks/useStationsAPI';
-import SearchingForm from '../components/forms/SearchingForm';
+import SearchingForm from '../components/SearchingForm';
 
 function HomeScreen() {
     const limitOptionsBase = React.useMemo(
