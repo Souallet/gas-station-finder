@@ -13,7 +13,7 @@ const initialStationsState = {
 
 function getInitialState() {
     const stations = localStorage.getItem('stations');
-    const initialState = stations !== 'undefined' ? JSON.parse(stations) : initialStationsState;
+    const initialState = stations ? JSON.parse(stations) : initialStationsState;
     return initialState;
 }
 
